@@ -18,13 +18,13 @@ git init
 git add .
 git commit -m "Initial commit: Git Account Manager v1.0.0"
 git branch -M main
-git remote add origin https://github.com/amolchavan/git-account-manager.git
+git remote add origin git@github.com-yuyutsu:Yuyutsu/git-account-manager.git
 git push -u origin main
 ```
 
 ## Step 2: Create a Release
 
-1. Go to your GitHub repository: `https://github.com/amolchavan/git-account-manager`
+1. Go to your GitHub repository: `https://github.com/Yuyutsu/git-account-manager`
 2. Click on "Releases" → "Create a new release"
 3. Create a new tag: `v1.0.0`
 4. Release title: `Git Account Manager v1.0.0`
@@ -49,7 +49,7 @@ After creating the release, download the tarball and calculate its SHA256:
 ```bash
 # Download the release tarball
 curl -L -o git-account-manager-1.0.0.tar.gz \
-  https://github.com/amolchavan/git-account-manager/archive/refs/tags/v1.0.0.tar.gz
+  https://github.com/Yuyutsu/git-account-manager/archive/refs/tags/v1.0.0.tar.gz
 
 # Calculate SHA256
 shasum -a 256 git-account-manager-1.0.0.tar.gz
@@ -78,7 +78,7 @@ git branch -M main
 
 # Create repository on GitHub named 'homebrew-tap'
 # Then push:
-git remote add origin https://github.com/amolchavan/homebrew-tap.git
+git remote add origin git@github.com-yuyutsu:Yuyutsu/homebrew-tap.git
 git push -u origin main
 ```
 
@@ -107,7 +107,7 @@ Test the formula before publishing:
 brew install --build-from-source ./Formula/git-account-manager.rb
 
 # Or test from your tap
-brew tap amolchavan/tap https://github.com/amolchavan/homebrew-tap
+brew tap amolchavan/tap https://github.com/Yuyutsu/homebrew-tap
 brew install amolchavan/tap/git-account-manager
 
 # Test it works
@@ -120,7 +120,7 @@ Users can now install your tool with:
 
 ```bash
 # Tap your repository
-brew tap amolchavan/tap
+brew tap Yuyutsu/tap
 
 # Install the package
 brew install git-account-manager

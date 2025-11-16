@@ -28,7 +28,7 @@ A bash script to easily manage multiple Git accounts (GitHub/GitLab) on a single
 
 ```bash
 # Add the tap
-brew tap amolchavan/tap
+brew tap Yuyutsu/tap
 
 # Install
 brew install git-account-manager
@@ -37,11 +37,19 @@ brew install git-account-manager
 git-account-manager
 ```
 
+> **Note**: The Homebrew tap is currently being set up. For now, please use the manual installation method below.
+
 ### Option 2: Manual Installation
 
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/amolchavan/git-account-manager.git
+   git clone git@github.com-yuyutsu:Yuyutsu/git-account-manager.git
+   cd git-account-manager
+   ```
+   
+   Or using HTTPS:
+   ```bash
+   git clone https://github.com/Yuyutsu/git-account-manager.git
    cd git-account-manager
    ```
 

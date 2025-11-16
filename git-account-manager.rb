@@ -1,7 +1,7 @@
 class GitAccountManager < Formula
   desc "Bash script to manage multiple Git accounts (GitHub/GitLab) on a single machine"
-  homepage "https://github.com/amolchavan/git-account-manager"
-  url "https://github.com/amolchavan/git-account-manager/archive/refs/tags/v1.0.0.tar.gz"
+  homepage "https://github.com/Yuyutsu/git-account-manager"
+  url "https://github.com/Yuyutsu/git-account-manager/archive/refs/tags/v1.0.0.tar.gz"
   sha256 "" # Will be calculated after creating the release
   license "MIT"
   version "1.0.0"
