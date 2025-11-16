@@ -1,0 +1,47 @@
+# .gitignore for Git Account Manager
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Backup files
+*.bak
+*~
+
+# Test files
+test-*.sh
+
+# SSH keys and config (NEVER commit these!)
+*.pub
+id_*
+config
+known_hosts
+
+# Log files
+*.log
+
+# Downloaded tarballs
+*.tar.gz
+*.zip
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
