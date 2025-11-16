@@ -88,8 +88,9 @@ When you run the script, you'll see an interactive menu with the following optio
 5. Fix repository remote URL
 6. Test SSH connection
 7. Configure Git settings
-8. Restore config backup
-9. Exit
+8. Diagnose SSH issues
+9. Restore config backup
+10. Exit
 ```
 
 ### Adding a New Account
@@ -173,6 +174,19 @@ Set up Git global configuration options:
    - Disable default branch warning
    - View all git config
 
+### Diagnosing SSH Issues
+
+If you encounter SSH connection problems:
+
+1. Select option `8` from the main menu
+2. Enter the account name to diagnose
+3. The tool will check:
+   - SSH key files existence and permissions
+   - SSH config entries
+   - SSH agent status
+   - Current Git remote configuration
+   - Provide specific suggestions to fix issues
+
 ### Listing Accounts
 
 Select option `3` to view all configured Git accounts.
@@ -187,7 +201,7 @@ Select option `3` to view all configured Git accounts.
 
 If you need to restore a previous SSH config:
 
-1. Select option `8` from the main menu
+1. Select option `9` from the main menu
 2. Choose from available backup files
 3. The script will restore the selected backup
 
