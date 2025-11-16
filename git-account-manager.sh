@@ -208,6 +208,73 @@ function get_ssh_key() {
     echo "GitLab: Preferences → SSH Keys → Add new key"
 }
 
+function diagnose_ssh_config() {
+    echo -e "\n${BLUE}----- DIAGNOSE SSH CONFIGURATION -----${NC}"
+    
+    echo -e "\n${YELLOW}Checking SSH configuration for account...${NC}"
+    read -p "Enter account name to diagnose: " ACC_NAME
+    
+    KEY_PRIV="$SSH_DIR/id_ed25519_$ACC_NAME"
+    KEY_PUB="$SSH_DIR/id_ed25519_$ACC_NAME.pub"
+    
+    echo -e "\n${BLUE}1. Checking SSH Keys:${NC}"
+    if [[ -f "$KEY_PRIV" ]]; then
+        echo -e "  ${GREEN}✓${NC} Private key exists: $KEY_PRIV"
+        ls -l "$KEY_PRIV" | awk '{print "    Permissions: " $1}'
+    else
+        echo -e "  ${RED}✗${NC} Private key NOT found: $KEY_PRIV"
+    fi
+    
+    if [[ -f "$KEY_PUB" ]]; then
+        echo -e "  ${GREEN}✓${NC} Public key exists: $KEY_PUB"
+    else
+        echo -e "  ${RED}✗${NC} Public key NOT found: $KEY_PUB"
+    fi
+    
+    echo -e "\n${BLUE}2. Checking SSH Config Entries:${NC}"
+    if grep -q "# ACCOUNT: $ACC_NAME" "$SSH_CONFIG"; then
+        echo -e "  ${GREEN}✓${NC} Account entry found in SSH config"
+        echo -e "\n${YELLOW}Config block:${NC}"
+        sed -n "/# ACCOUNT: $ACC_NAME/,/^$/p" "$SSH_CONFIG" | sed 's/^/    /'
+    else
+        echo -e "  ${RED}✗${NC} Account entry NOT found in SSH config"
+        echo -e "  ${YELLOW}This is likely why you're getting 'Could not resolve hostname' error${NC}"
+    fi
+    
+    echo -e "\n${BLUE}3. Checking SSH Agent:${NC}"
+    if ssh-add -l | grep -q "$KEY_PRIV"; then
+        echo -e "  ${GREEN}✓${NC} Key is loaded in ssh-agent"
+    else
+        echo -e "  ${YELLOW}○${NC} Key is NOT loaded in ssh-agent"
+        echo -e "    Run: ssh-add $KEY_PRIV"
+    fi
+    
+    echo -e "\n${BLUE}4. All Configured Accounts:${NC}"
+    if grep -q "# ACCOUNT:" "$SSH_CONFIG"; then
+        grep "# ACCOUNT:" "$SSH_CONFIG" | sed 's/# ACCOUNT: //g' | sed 's/^/    /'
+    else
+        echo -e "  ${YELLOW}No accounts configured yet${NC}"
+    fi
+    
+    echo -e "\n${BLUE}5. Current Git Remote (if in a repo):${NC}"
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        git remote -v | sed 's/^/    /' || echo "    No remotes configured"
+    else
+        echo "    Not in a git repository"
+    fi
+    
+    echo -e "\n${YELLOW}Suggestions:${NC}"
+    if [[ ! -f "$KEY_PRIV" ]]; then
+        echo "  • Run option 1 to add this account"
+    elif ! grep -q "# ACCOUNT: $ACC_NAME" "$SSH_CONFIG"; then
+        echo "  • SSH key exists but config entry is missing"
+        echo "  • Try deleting and re-adding the account"
+    fi
+    
+    echo ""
+    read -p "Press Enter to continue..."
+}
+
 function configure_git_settings() {
     echo -e "\n${BLUE}----- CONFIGURE GIT SETTINGS -----${NC}"
     
@@ -290,12 +357,13 @@ while true; do
     echo "5. Fix repository remote URL"
     echo "6. Test SSH connection"
     echo "7. Configure Git settings"
-    echo "8. Restore config backup"
-    echo "9. Exit"
+    echo "8. Diagnose SSH issues"
+    echo "9. Restore config backup"
+    echo "10. Exit"
     echo "====================================="
     echo -e "${NC}"
 
-    read -p "Select option (1-9): " OPTION
+    read -p "Select option (1-10): " OPTION
 
     case $OPTION in
         1) add_account ;;
@@ -305,8 +373,9 @@ while true; do
         5) fix_repo_remote ;;
         6) test_connection ;;
         7) configure_git_settings ;;
-        8) restore_backup ;;
-        9) echo "Exiting..."; exit 0 ;;
+        8) diagnose_ssh_config ;;
+        9) restore_backup ;;
+        10) echo "Exiting..."; exit 0 ;;
         *) echo -e "${RED}Invalid option! Try again.${NC}" ;;
     esac
 done
